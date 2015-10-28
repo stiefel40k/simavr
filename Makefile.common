@@ -110,6 +110,8 @@ SHELL	 	:= ${shell which bash}
 OBJ 		:= obj-${shell $(CC) -dumpmachine}
 LIBDIR		:= ${shell pwd}/${SIMAVR}/${OBJ}
 LDFLAGS 	+= -L${LIBDIR} -lsimavr 
+# pty support in "run_avr":
+LDFLAGS 	+= -lpthread -lutil
 
 LDFLAGS 	+= -lelf 
 
