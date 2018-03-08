@@ -212,7 +212,8 @@ uart_pty_thread(
 						dst < (buffer + sizeof(buffer)))
 					*dst++ = uart_pty_fifo_read(&p->port[ti].in);
 				size_t len = dst - buffer;
-				TRACE(size_t r =) write(p->port[ti].s, buffer, len);
+				size_t r = write(p->port[ti].s, buffer, len);
+                                r++;
 				TRACE(if (!p->port[ti].tap) hdump("pty send", buffer, r);)
 			}
 		}
@@ -320,7 +321,8 @@ uart_pty_connect(
 		char cmd[256];
 		sprintf(cmd, "xterm -e picocom -b 115200 %s >/dev/null 2>&1 &",
 				p->tap.slavename);
-		system(cmd);
+		int ret = system(cmd);
+                ret++;
 	} else
 		printf("note: export SIMAVR_UART_XTERM=%s and install picocom to get a terminal\n",uartname);
 }
